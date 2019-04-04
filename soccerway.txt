@@ -1,0 +1,50 @@
+Possible request: https://uk.soccerway.com/a/block_player_career?block_id=page_player_1_block_player_career_6&callback_params={"people_id":455314}&action=changeTab&params={"type":"club","formats":["Domestic cup","Domestic super cup"]}
+
+
+Block ID same all the time.
+
+Callback params: people_id = player ID on soccerway. https://uk.soccerway.com/players/callum-hudson-odoi/455314 = 455314
+
+action same all the time
+
+Type: Club
+League: ["Domestic league"]
+Cups: ["Domestic cup","Domestic super cup"]
+International Cups: ["International cup","International super cup"]
+
+Type: International
+Formats: NONE. REMOVE FORMATS.
+
+
+
+
+Returns: Something like https://pastebin.com/cvFm4JyE
+
+Assuming response is parsed into json and stored as 'response' variable
+
+1. Confirm response["commands"][1]["parameters"]["params"]["people_id"] matches
+2. Take response["commands"][0]["parameters"]["content"]
+Crossroads for efficiency? Timeit module
+3. 1. Use regex, remove everything after (including) "<script"
+3. 2. 1. finContent = response["commands"][0]["parameters"]["content"].find("<script")
+3. 2. 2. contentResponse = response["commands"][0]["parameters"]["content"][:finContent]
+4. Uncomment all the shit. Example: <tr class=\"sub-head\"><td colspan=\"3\" class=\"total\">Total<\/td>. Replacing `<\/` with `</` and `\"` with `"` seems to work well enough.
+5. Parse it, preferably convert to JSON. http://convertjson.com/html-table-to-json.htm worked pretty well. `table_data = [[cell.text for cell in row("td")]
+                                  for row in BeautifulSoup(xd123)("tr")][1:]`
+6. 1 = Season
+   2 = Team
+   3 = Competition (acronym)
+   4 = Minutes (useless)
+   5 = Appearances
+   6 = Lineups (useless)
+   7 = Subbed on (useless)
+   8 = Subbed off (useless)
+   9 = Subs on bench (useless)
+  10 = Goals
+  11 = Yellow cards (useless)
+  12 = Second yellows
+  13 = Straight reds
+
+TODO:
+
+3. Make TableColumns inside the configuration?
