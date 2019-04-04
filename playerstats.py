@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 from wikitools import *
 
-site = wiki.Wiki("https://test.wikipedia.org/w/api.php")
+site = wiki.Wiki()
 site.login(sportsbot.username, sportsbot.password)
 
 baseURL = 'https://uk.soccerway.com/a/block_player_career?block_id=page_player' \
